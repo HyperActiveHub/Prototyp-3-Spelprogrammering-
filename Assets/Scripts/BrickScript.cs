@@ -2,35 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteAlways]
 public class BrickScript : MonoBehaviour
 {
-    public BrickObject brickType;
-    int health;
+    [SerializeField]
+    BrickObject brick = null;
 
+    int health;
     SpriteRenderer sr;
+    GameObject powerUp;
+
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
-        health = brickType.health;
-    }
+        health = brick.health;
+        sr.sprite = brick.sprite;
+        sr.color = brick.color;
 
-    private void Update()
-    {
-        sr.sprite = brickType.sprite;
-        sr.color = brickType.color;
+        if (Random.Range(0f, 1f) <= brick.dropChance)
+            powerUp = GameManagerScript.instance.powerUps[Random.Range(0, GameManagerScript.instance.powerUps.Count)];
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        print("brick hit.");
-        health--;   //make sure this only happens once per bounce
-
+        health--;
         if (health < 1)
         {
-            Debug.Log("Brick health reached 0 and was removed.");
-            //Destroy(gameObject);
-            gameObject.SetActive(false);
+            if (powerUp != null)
+                Instantiate(powerUp, transform.position, Quaternion.identity);
+
+            Destroy(gameObject);
         }
+
+        sr.color = brick.hitColor;
     }
 
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        sr.color = brick.color;
+    }
 }

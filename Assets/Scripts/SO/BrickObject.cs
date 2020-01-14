@@ -9,9 +9,14 @@ public class BrickObject : ScriptableObject
     //[Min((1))]    not working (bug), fixed in Unity 2020.x
     public int health;
     public Color color;
+    public Color hitColor;
+    [Range(0, 1)]
+    public float dropChance = 0.1f;
 
     private void OnEnable()
     {
+        color.a = 1;
+        hitColor.a = 1;
         UnityEngine.Assertions.Assert.IsTrue(health > 0, "Health must be larger than 0.");
     }
 }
