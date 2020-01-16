@@ -5,29 +5,15 @@ using UnityEngine;
 public class ActivateWeapons : PowerUp
 {
     static ActivateWeapons instance;
-    static float timer;
-    static bool resetTimer;
 
     public float weaponTime = 10f;
     public float fireRate = 0.35f;
 
-    GameObject shotPrefab = null;
-    bool startTimer;
+    bool startTimer, canShoot;
     float fireTimer;
-    GameObject paddle;
-
-    private void Awake()
-    {
-        if(instance == null)
-        {
-            instance = this;
-            timer = 0;
-        }
-        else
-        {
-            resetTimer = true;
-        }
-    }
+    float timer;
+    protected GameObject paddle;
+    protected GameObject shotPrefab = null;
 
     protected override void Start()
     {
@@ -46,30 +32,39 @@ public class ActivateWeapons : PowerUp
             if (timer < weaponTime)
             {
                 timer += Time.deltaTime;
-                print("timer: " + timer);
+
+                if (fireTimer >= fireRate)
+                {
+                    canShoot = true;
+                }
+                else
+                    fireTimer += Time.deltaTime;
 
                 if (Input.GetAxisRaw("Jump") != 0)
                 {
-                    if (fireTimer >= fireRate)
+                    if (canShoot)
                     {
-                        Vector3 posR = new Vector3(paddle.transform.position.x + 1, paddle.transform.position.y + 1f);
-                        Vector3 posL = new Vector3(paddle.transform.position.x - 1, paddle.transform.position.y + 1f);
-
-                        Instantiate(shotPrefab, posR, Quaternion.identity);
-                        Instantiate(shotPrefab, posL, Quaternion.identity);
+                        SpawnShots();
                         fireTimer = 0;
+                        canShoot = false;
                     }
-                    else
-                        fireTimer += Time.deltaTime;
                 }
             }
             else
             {
-                //disable weapons
                 Destroy(gameObject);
             }
         }
 
+    }
+
+    protected virtual void SpawnShots()
+    {
+        Vector3 posR = new Vector3(paddle.transform.position.x + 1, paddle.transform.position.y + 1f);
+        Vector3 posL = new Vector3(paddle.transform.position.x - 1, paddle.transform.position.y + 1f);
+
+        Instantiate(shotPrefab, posR, Quaternion.identity);
+        Instantiate(shotPrefab, posL, Quaternion.identity);
     }
 
     protected override void OnTriggerEnter2D(Collider2D collision)
@@ -78,15 +73,18 @@ public class ActivateWeapons : PowerUp
 
         if (pickedUp)
         {
-            //enable weapons
-            startTimer = true;
             //paddle = collision.GetComponent<PaddleScript>();  doesnt work?? loses reference somehow..
+            pickedUp = false;
+            startTimer = true;
 
-            if (resetTimer && instance != this)
+            if (instance == null)
             {
-                timer = 0;
-                Destroy(gameObject);
-                print("timer reset.");
+                instance = this;
+            }
+            else
+            {
+                Destroy(instance.gameObject);
+                instance = this;
             }
         }
     }

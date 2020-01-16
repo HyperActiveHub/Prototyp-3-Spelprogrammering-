@@ -26,19 +26,28 @@ public class BrickScript : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         health--;
+
         if (health < 1)
         {
-            if (powerUp != null)
-                Instantiate(powerUp, transform.position, Quaternion.identity);
-
+            if (collision.gameObject.GetComponent<BallScript>())
+            {
+                if (powerUp != null)
+                    Instantiate(powerUp, transform.position, Quaternion.identity);
+            }
             Destroy(gameObject);
+
+            StopAllCoroutines();
         }
 
         sr.color = brick.hitColor;
+
+        StartCoroutine(ColorSwitch(0.05f));
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    IEnumerator ColorSwitch(float flickerTime)
     {
+        yield return new WaitForSeconds(flickerTime);
+
         sr.color = brick.color;
     }
 }

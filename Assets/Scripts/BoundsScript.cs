@@ -14,13 +14,16 @@ public class BoundsScript : MonoBehaviour
     {
         Destroy(collision.gameObject);
 
-        var balls = FindObjectsOfType<BallScript>();
-
-        if(balls.Length == 1)
+        if (collision.GetComponent<BallScript>())
         {
-            //remove one life from player
-            var b = Instantiate(ball, Vector3.zero, Quaternion.identity);
-            b.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            var balls = FindObjectsOfType<BallScript>();
+
+            if (balls.Length == 1)
+            {
+                //remove one life from player
+                var b = Instantiate(ball, Vector3.zero, Quaternion.identity);
+                b.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            }
         }
     }
 }

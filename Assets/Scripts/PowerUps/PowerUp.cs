@@ -33,6 +33,7 @@ public class PowerUp : MonoBehaviour
             pickedUp = true;
             falling = false;
             sr.enabled = false;
+            GetComponent<Collider2D>().enabled = false;
         }
     }
 }

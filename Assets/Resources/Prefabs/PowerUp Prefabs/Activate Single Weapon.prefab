@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1075038340647755108}
   - component: {fileID: 1075038340647755107}
   - component: {fileID: 1075038340647755106}
-  - component: {fileID: 1075038340647755105}
+  - component: {fileID: 8451878424951630685}
   m_Layer: 0
-  m_Name: Activate Weapons
+  m_Name: Activate Single Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,8 +75,8 @@ SpriteRenderer:
   m_Color: {r: 1, g: 0.96941197, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 2
-  m_Size: {x: -0.39, y: 0.2}
+  m_DrawMode: 0
+  m_Size: {x: 0.2, y: 0.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -98,7 +98,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.1
---- !u!114 &1075038340647755105
+--- !u!114 &8451878424951630685
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1075038340647755104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ccb955cb930ca44e8e16ff6fa1822f8, type: 3}
+  m_Script: {fileID: 11500000, guid: da2a5168999341b42ac2a1e5780a3ed1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weaponTime: 10
