@@ -16,6 +16,30 @@ public class PaddleScript : MonoBehaviour
     {
         float h = Input.GetAxisRaw(GameManagerScript.horizontalAxis);
         float movement = h * Time.deltaTime * moveSpeed;
+        if(CanMove(h))
         rb.position += new Vector2(movement, 0);
+    }
+
+    bool CanMove(float h)
+    {
+        if(h > 0)
+        {
+            if(transform.position.x + GetComponent<SpriteRenderer>().bounds.extents.x < Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, 0)).x - 1.15f)
+            {
+                return true;
+            }
+
+
+        }
+        else if(h < 0)
+        {
+            if (transform.position.x - GetComponent<SpriteRenderer>().bounds.extents.x > Camera.main.ScreenToWorldPoint(new Vector2(0, 0)).x + 1.15f)
+            {
+                return true;
+            }
+
+        }
+
+        return false;
     }
 }
