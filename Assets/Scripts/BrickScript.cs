@@ -35,7 +35,7 @@ public class BrickScript : MonoBehaviour
                     Instantiate(powerUp, transform.position, Quaternion.identity);
             }
             Destroy(gameObject);
-
+            GameManagerScript.BrickDestroyed();
             StopAllCoroutines();
         }
 
