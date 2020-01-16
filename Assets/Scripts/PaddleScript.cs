@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PaddleScript : MonoBehaviour
 {
+    public float moveSpeed = 10f;
+
     Rigidbody2D rb;
     void Start()
     {
@@ -12,8 +14,8 @@ public class PaddleScript : MonoBehaviour
 
     void Update()
     {
-        float h = Input.GetAxisRaw("Horizontal");
-        //transform.position += new Vector3(h * Time.deltaTime * 10, 0);
-        rb.position += (new Vector2(h * Time.deltaTime * 10, 0));
+        float h = Input.GetAxisRaw(GameManagerScript.horizontalAxis);
+        float movement = h * Time.deltaTime * moveSpeed;
+        rb.position += new Vector2(movement, 0);
     }
 }

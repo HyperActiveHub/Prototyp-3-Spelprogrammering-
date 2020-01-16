@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class BallScript : MonoBehaviour
 {
-    Rigidbody2D rb;
-    public Vector2 initialForce = new Vector2(0, -1);
+    public Vector2 initialDirection = new Vector2(0, -1);
+    public float speed = 500;
+
     bool started, moving;
+    Rigidbody2D rb;
 
     public void StartBall()
     {
@@ -14,8 +16,6 @@ public class BallScript : MonoBehaviour
         {
             started = true;
         }
-        else
-            Debug.LogError("Tried to start when ball was already moving.");
     }
 
     void Start()
@@ -25,14 +25,14 @@ public class BallScript : MonoBehaviour
 
     void Update()
     { 
-        if(!started && Input.GetAxisRaw("Jump") > 0)
+        if(!started && Input.GetAxisRaw(GameManagerScript.jumpAxis) > 0)
         {
             StartBall();
         }
 
         if(!moving && started)
         {
-            rb.AddForce(initialForce * 500);
+            rb.AddForce(initialDirection * speed);
             moving = true;
         }
     }

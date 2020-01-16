@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ShotScript : MonoBehaviour
 {
+    public Vector2 direction = Vector2.up;
+    public float speed = 10f;
+
     Rigidbody2D rb;
 
     void Start()
@@ -11,10 +14,9 @@ public class ShotScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        rb.position += Vector2.up * Time.deltaTime * 10f;
+        rb.position += direction * Time.deltaTime * speed;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

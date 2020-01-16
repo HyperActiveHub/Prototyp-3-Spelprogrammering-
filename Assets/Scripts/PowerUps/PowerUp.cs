@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
+    public float fallingSpeed = 3;
+
     protected bool pickedUp;
     protected bool falling = true;
     protected SpriteRenderer sr;
@@ -15,13 +17,16 @@ public class PowerUp : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (transform.position.y + sr.sprite.bounds.max.y < Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).y)
+        float screenBottom = Camera.main.ScreenToWorldPoint(new Vector3(0, 0)).y;
+        float powerUpTop = transform.position.y + sr.sprite.bounds.max.y;
+
+        if (powerUpTop < screenBottom)
         {
             Destroy(gameObject);
         }
         else if(falling)
         {
-            transform.position += new Vector3(0, -1 * Time.deltaTime * 3);
+            transform.position += Vector3.down * Time.deltaTime * fallingSpeed;
         }
     }
 

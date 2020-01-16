@@ -8,18 +8,19 @@ public class ActivateWeapons : PowerUp
 
     public float weaponTime = 10f;
     public float fireRate = 0.35f;
+    public Vector2 shotOffset;
+    public GameObject shotPrefab = null;
 
     bool startTimer, canShoot;
     float fireTimer;
     float timer;
     protected GameObject paddle;
-    protected GameObject shotPrefab = null;
+
 
     protected override void Start()
     {
         base.Start();
         fireTimer = fireRate;
-        shotPrefab = Resources.Load<GameObject>("Prefabs/Shot");
         paddle = GameObject.Find("Paddle");
     }
 
@@ -29,39 +30,50 @@ public class ActivateWeapons : PowerUp
 
         if (startTimer)
         {
-            if (timer < weaponTime)
+            if (AreWeaponsActive())
             {
-                timer += Time.deltaTime;
+                FireRate();
 
-                if (fireTimer >= fireRate)
+                if (Input.GetAxisRaw(GameManagerScript.jumpAxis) != 0)
                 {
-                    canShoot = true;
-                }
-                else
-                    fireTimer += Time.deltaTime;
-
-                if (Input.GetAxisRaw("Jump") != 0)
-                {
-                    if (canShoot)
-                    {
-                        SpawnShots();
-                        fireTimer = 0;
-                        canShoot = false;
-                    }
+                    Shoot();
                 }
             }
             else
-            {
                 Destroy(gameObject);
-            }
         }
+    }
 
+    bool AreWeaponsActive()
+    {
+        timer += Time.deltaTime;
+        return (timer < weaponTime);
+    }
+
+    private void Shoot()
+    {
+        if (canShoot)
+        {
+            SpawnShots();
+            fireTimer = 0;
+            canShoot = false;
+        }
+    }
+
+    private void FireRate()
+    {
+        if (fireTimer >= fireRate)
+        {
+            canShoot = true;
+        }
+        else
+            fireTimer += Time.deltaTime;
     }
 
     protected virtual void SpawnShots()
     {
-        Vector3 posR = new Vector3(paddle.transform.position.x + 1, paddle.transform.position.y + 1f);
-        Vector3 posL = new Vector3(paddle.transform.position.x - 1, paddle.transform.position.y + 1f);
+        Vector3 posR = new Vector2(paddle.transform.position.x, paddle.transform.position.y) + shotOffset;
+        Vector3 posL = new Vector2(paddle.transform.position.x, paddle.transform.position.y) + new Vector2(-shotOffset.x, shotOffset.y);
 
         Instantiate(shotPrefab, posR, Quaternion.identity);
         Instantiate(shotPrefab, posL, Quaternion.identity);

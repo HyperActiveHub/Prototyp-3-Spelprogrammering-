@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AddBall : PowerUp
 {
+    public Vector2 spawnForce = new Vector2(0.75f, 0.75f);
 
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
@@ -12,7 +13,8 @@ public class AddBall : PowerUp
         if (pickedUp)
         {
             GameObject a = Instantiate(Resources.Load("Prefabs/Ball") as GameObject, Vector3.zero, Quaternion.identity);
-            a.GetComponent<BallScript>().initialForce = new Vector2(0.75f * Random.Range(-1, 2), 0.75f);
+            int randomSide = Random.Range(-1, 2);   //Left, middle or right.
+            a.GetComponent<BallScript>().initialDirection = new Vector2(spawnForce.x * randomSide, spawnForce.y);
             a.GetComponent<BallScript>().StartBall();
             Destroy(gameObject);
         }
