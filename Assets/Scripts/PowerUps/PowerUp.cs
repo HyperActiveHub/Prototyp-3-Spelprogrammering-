@@ -5,9 +5,10 @@ using UnityEngine;
 public class PowerUp : MonoBehaviour
 {
     protected bool pickedUp;
+    protected bool falling = true;
     protected SpriteRenderer sr;
 
-    protected void Start()
+    protected virtual void Start()
     {
         sr = GetComponent<SpriteRenderer>();
     }
@@ -18,8 +19,10 @@ public class PowerUp : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else
+        else if(falling)
+        {
             transform.position += new Vector3(0, -1 * Time.deltaTime * 3);
+        }
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
@@ -28,6 +31,7 @@ public class PowerUp : MonoBehaviour
         if (a != null)
         {
             pickedUp = true;
+            falling = false;
             sr.enabled = false;
         }
     }

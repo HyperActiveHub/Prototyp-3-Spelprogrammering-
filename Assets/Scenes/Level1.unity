@@ -2256,6 +2256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerUps:
   - {fileID: 2684496352858494021, guid: 1961db40320bbb448acb38183c40ad32, type: 3}
+  - {fileID: 1075038340647755104, guid: 1a4ddf212f3dcf540b64e4c1bbaf405d, type: 3}
 --- !u!114 &711479707
 MonoBehaviour:
   m_ObjectHideFlags: 0
